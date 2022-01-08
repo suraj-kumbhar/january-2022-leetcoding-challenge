@@ -63,3 +63,47 @@ public:
         return res[rand()%res.size()];
     }
 };
+
+// approach 2
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+#include<bits/stdc++.h>
+
+class Solution {
+public:
+    ListNode* curr = NULL;
+    Solution(ListNode* head) {
+        this->curr = head;
+    }
+    
+    int getRandom() {
+        int res = 0;
+        ListNode* p = this->curr;
+        int i=1;
+        while(p){
+            int num = rand() % i;
+            if(num == 0){
+                res = p->val;
+            }
+            p = p->next;
+            i++;
+        }
+        return res;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(head);
+ * int param_1 = obj->getRandom();
+ */
