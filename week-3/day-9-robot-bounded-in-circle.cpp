@@ -47,15 +47,46 @@
 class Solution {
 public:
     bool isRobotBounded(string instructions) {
-        int x = 0, y = 0, i = 0;
-        vector<vector<int>> d = {{0, 1}, {1, 0}, {0, -1}, { -1, 0}};
-        for (char & ins : instructions)
-            if (ins == 'R')
-                i = (i + 1) % 4;
-            else if (ins == 'L')
-                i = (i + 3) % 4;
-            else
-                x += d[i][0], y += d[i][1];
-        return x == 0 && y == 0 || i > 0;
+        char current_direction = 'N';
+        int x = 0;
+        int y = 0;
+        for(auto &c: instructions){
+            if(c == 'G'){
+                switch(current_direction){
+                    case 'N':
+                        y += 1;
+                        break;
+                    case 'S':
+                        y -= 1;
+                        break;
+                    case 'W':
+                        x -= 1;
+                        break;
+                    case 'E':
+                        x += 1;
+                        break;
+                }
+            }
+            else {
+                if(current_direction == 'N'){
+                    current_direction = c == 'L' ? 'W' : 'E';
+                }
+                else if(current_direction == 'S'){
+                    current_direction = c == 'L' ? 'E' : 'W';
+                }
+                else if(current_direction == 'E'){
+                    current_direction = c == 'L' ? 'N' : 'S';
+                }
+                else if(current_direction == 'W'){
+                    current_direction = c == 'L' ? 'S' : 'N';
+                }
+            }
+        }
+        
+        if(current_direction != 'N' || (x == 0 && y == 0)){
+            return true;
+        }
+        return false;
     }
 };
+
