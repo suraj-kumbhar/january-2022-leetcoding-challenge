@@ -59,3 +59,60 @@ public:
     }
     
 };
+
+// alternate solution
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void dfs(TreeNode* root, string &s, int &res){
+        if(!root){
+            return;
+        }
+        s += to_string(root->val);
+        if(!root->left && !root->right){
+            int temp = 0;
+            int ind = 0;
+            
+            for(int i = s.length() - 1; i>=0; i--){
+                if(s[i] == '1')
+                {
+                    temp += pow(2, ind);
+                }
+                ind++;
+            }
+            res += temp;
+            s = s.substr(0, s.length()-1);
+            return;
+        }
+        else{
+            if(root->left){
+                dfs(root->left, s, res);
+                
+            }
+            if(root->right){
+                dfs(root->right, s, res);
+                
+            }
+        }
+        s = s.substr(0, s.length()-1);
+        return;
+        
+    }
+    int sumRootToLeaf(TreeNode* root) {
+        int res = 0;
+        string s = "";
+        dfs(root, s, res);
+        return res;
+    }
+};
